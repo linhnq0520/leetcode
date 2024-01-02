@@ -1,13 +1,35 @@
-﻿public class Program
+﻿using System.Globalization;
+
+public class Program
 {
 	private static void Main(string[] args)
 	{
-		var solution = new Solution();
-		Console.WriteLine("Hello, World!");
+		ProcessDate("30/12/2028");
+
+
+	}
+
+	public static void ProcessDate(string dateTime)
+	{
+		try
+		{
+			var date = DateTime.ParseExact(dateTime, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+			var fiveYearsAgo = date.AddDays(-1825);
+			Console.WriteLine(fiveYearsAgo.ToString());
+		}
+		catch (FormatException)
+		{
+			Console.WriteLine("Invalid date format. Please provide a date in the format 'dd/MM/yyyy'.");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("An error occurred: " + ex.Message);
+		}
 	}
 
 
 }
+
 
 public class Solution
 {
@@ -19,8 +41,45 @@ public class Solution
 			throw new ArgumentException("Invalid flowerbed");
 		}
 		var count = 0;
+		var list = new List<int>();
+		for (var i = 0; i < length; i++)
+		{
+			if (flowerbed[i] == 0) list.Add(i);
+		}
+		if (list.Contains(0))
+		{
+			list = list.Where(s => s % 2 == 0).ToList();
+			count = list.Count();
+		}
+		else
+		{
+			list = list.Where(s => s % 2 == 0).ToList();
+			count = list.Count();
+		}
+		if (length > 2)
+		{
+			foreach (var item in list)
+			{
+				Console.WriteLine($"item-{item}={flowerbed[item]}");
+				// var indexCheck = item >= length - 1 ? item - 1 : item + 1;
+				// if (flowerbed[indexCheck] == 1) count = count - 1;
+				if (item == length - 1)
+				{
+					if (flowerbed[item - 1] == 1) count = count - 1;
+				}
+				else if (item == 0)
+				{
+					if (flowerbed[item + 1] == 1) count = count - 1;
+				}
+				else
+				{
+					if (flowerbed[item + 1] == 1 || flowerbed[item - 1] == 1) count = count - 1;
+				}
 
-		return count == n;
+			}
+		}
+		Console.WriteLine("count=" + count);
+		return count >= n;
 	}
 
 	public string MergeAlternately(string word1, string word2)
