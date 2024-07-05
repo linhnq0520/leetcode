@@ -1,13 +1,38 @@
 ﻿using System.Globalization;
+using leetcode;
 
 public class Program
 {
-	private static void Main(string[] args)
+	private static async Task Main(string[] args)
 	{
-		ProcessDate("30/12/2028");
-
-
+		var testTask = new TestTask();
+		//chạy song song
+		Task t1 = testTask.T1();
+		Task t2 = testTask.T2();
+		await t1;
+		await t2;
+		// chạy đồng bộ
+		// await testTask.T1();
+		// await testTask.T2();
 	}
+	// private static async Task Main2(string[] args)
+	// {
+	// 	var testTask = new TestTask();
+	// 	var t1 = testTask.T1();
+	// 	var t2 = testTask.T2();
+	// 	await Task.WhenAll(t1, t2);
+
+	// 	Console.WriteLine(await t1);
+	// 	Console.WriteLine(await t2);
+	// }
+
+	// private static async Task Main(string[] args)
+	// {
+	// 	var testTask = new TestTask();
+	// 	var t1 = Task.Run(() => testTask.T1());
+	// 	var t2 = Task.Run(testTask.T2);
+	// 	await Task.WhenAll(t1, t2);
+	// }
 
 	public static void ProcessDate(string dateTime)
 	{
